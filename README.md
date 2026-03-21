@@ -65,7 +65,7 @@ Storage: Browser Local Storage
 ---
 
 ## 📁 Project Structure
-
+```
 HevanCraft/
 │
 ├── home.html  
@@ -86,7 +86,7 @@ HevanCraft/
 │   └── icons/  
 │
 └── README.md  
-
+```
 ---
 
 ## 🎯 Design Philosophy
