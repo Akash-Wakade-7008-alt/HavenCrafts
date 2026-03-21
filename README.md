@@ -1,14 +1,13 @@
-<h1 align="center">HevanCraft</h1>
+<h1 align="center">HevanCraft ✨</h1>
 
 <p align="center">
-  A minimal, state-driven e-commerce interface built with deliberate simplicity.
+  A modern, customizable e-commerce experience crafted with clean UI and seamless user flow.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/HTML-5-111111?style=flat-square" />
-  <img src="https://img.shields.io/badge/CSS-3-111111?style=flat-square" />
-  <img src="https://img.shields.io/badge/JavaScript-Vanilla-111111?style=flat-square" />
-  <img src="https://img.shields.io/badge/State-LocalStorage-111111?style=flat-square" />
+  <img src="https://img.shields.io/badge/Frontend-HTML%20%7C%20CSS%20%7C%20JavaScript-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Storage-LocalStorage-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" />
 </p>
 
 
