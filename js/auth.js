@@ -130,7 +130,7 @@ function handleLogout(e) {
     removeAuthUser();
     authToast('Logged out successfully');
     setTimeout(() => {
-        window.location.href = 'index.html';
+        window.location.href = '../index.html';
     }, 800);
 }
 

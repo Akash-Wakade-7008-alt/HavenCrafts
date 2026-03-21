@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
@@ -29,7 +29,7 @@
           class="btn btn-outline cart-btn"
           id="cartBtn"
           aria-label="View cart"
-          onclick="window.location.href = 'cart.html'"
+          onclick="window.location.href = 'pages/cart.html'"
           style="
             padding: 10px 14px;
             position: relative;
@@ -58,8 +58,8 @@
             >0</span
           >
         </button>
-        <a href="login.html" class="btn btn-outline" id="loginBtn">Login</a>
-        <a href="signup.html" class="btn btn-primary" id="signupBtn">Sign Up</a>
+        <a href="pages/login.html" class="btn btn-outline" id="loginBtn">Login</a>
+        <a href="pages/signup.html" class="btn btn-primary" id="signupBtn">Sign Up</a>
       </div>
       <div
         class="nav-burger"
@@ -74,13 +74,13 @@
 
     <!-- Mobile Nav -->
     <div class="mobile-nav" id="mobileNav">
-      <a href="./cart.html" class="btn btn-outline" id="mobileCartBtn"
+      <a href="pages/cart.html" class="btn btn-outline" id="mobileCartBtn"
         >🛒 Cart (<span id="mobileCartBadge">0</span>)</a
       >
-      <a href="./login.html" class="btn btn-outline" id="mobileLoginBtn"
+      <a href="pages/login.html" class="btn btn-outline" id="mobileLoginBtn"
         >Login</a
       >
-      <a href="./signup.html" class="btn btn-primary" id="mobileSignupBtn"
+      <a href="pages/signup.html" class="btn btn-primary" id="mobileSignupBtn"
         >Sign Up</a
       >
     </div>
@@ -302,13 +302,13 @@
         </p>
         <div class="modal-actions">
           <button class="btn btn-outline" id="modalCancel">Maybe Later</button>
-          <a href="login.html" class="btn btn-primary" id="modalLogin"
+          <a href="pages/login.html" class="btn btn-primary" id="modalLogin"
             >Login Now</a
           >
         </div>
       </div>
     </div>
 
-    <script src="./script.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
