@@ -1,13 +1,14 @@
-<h1 align="center">HevanCraft ✨</h1>
+<h1 align="center">HevanCraft</h1>
 
 <p align="center">
-  A modern, customizable e-commerce experience crafted with clean UI and seamless user flow.
+  A minimal, state-driven e-commerce interface built with deliberate simplicity.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Frontend-HTML%20%7C%20CSS%20%7C%20JavaScript-blue?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Storage-LocalStorage-green?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/HTML-5-111111?style=flat-square" />
+  <img src="https://img.shields.io/badge/CSS-3-111111?style=flat-square" />
+  <img src="https://img.shields.io/badge/JavaScript-Vanilla-111111?style=flat-square" />
+  <img src="https://img.shields.io/badge/State-LocalStorage-111111?style=flat-square" />
 </p>
 
 ---
@@ -17,6 +18,16 @@
 HevanCraft is a thoughtfully designed frontend e-commerce application that simulates a real-world shopping experience without relying on a backend.
 
 The focus of this project is not just functionality, but clarity, smooth interaction, and a clean user experience across every step of the journey.
+
+---
+
+## System Flow
+
+Home → Product → Cart → Checkout → Payment → Confirmation
+
+Each transition is explicit.  
+Each state is persisted.  
+Nothing is hidden behind abstraction.
 
 ---
 
@@ -37,17 +48,40 @@ Add screenshots inside your assets folder and link them like this:
 
 ---
 
+## Behavior
+
+- Deterministic cart state using Local Storage
+- Immediate UI feedback on every action
+- Stateless pages connected through shared storage
+- Linear, interruption-free checkout flow
+- Clear separation between structure, logic, and data
+
+---
+
 ## 🚀 Features
 
-- Product browsing with clean UI  
-- Product customization with saved preferences  
-- Dynamic cart with real-time updates  
-- Quantity control inside cart  
-- Structured checkout with delivery form  
-- Order summary with pricing details  
-- Multiple payment options (COD, UPI, Card UI)  
-- Success page after order placement  
-- Persistent data using Local Storage  
+- Product browsing with clean UI
+- Product customization with saved preferences
+- Dynamic cart with real-time updates
+- Quantity control inside cart
+- Structured checkout with delivery form
+- Order summary with pricing details
+- Multiple payment options (COD, UPI, Card UI)
+- Success page after order placement
+- Persistent data using Local Storage
+
+---
+
+## Implementation
+
+The system avoids frameworks intentionally.
+
+- **Structure:** HTML
+- **Presentation:** CSS
+- **Logic:** Vanilla JavaScript
+- **Persistence:** Local Storage
+
+The result is small, inspectable, and easy to reason about.
 
 ---
 
@@ -60,41 +94,43 @@ Home → Product → Add to Cart → Cart → Checkout → Payment → Success
 ## 🧱 Tech Stack
 
 Frontend: HTML5, CSS3, JavaScript  
-Storage: Browser Local Storage  
+Storage: Browser Local Storage
 
 ---
 
 ## 📁 Project Structure
+
 ```
 HevanCraft/
 │
-├── home.html  
-├── cart.html  
-├── payment.html  
-├── success.html  
+├── home.html
+├── cart.html
+├── payment.html
+├── success.html
 │
-├── css/  
-│   └── style.css  
+├── css/
+│   └── style.css
 │
-├── js/  
-│   ├── script.js  
-│   ├── cart.js  
-│   └── payment.js  
+├── js/
+│   ├── script.js
+│   ├── cart.js
+│   └── payment.js
 │
-├── assets/  
-│   ├── images/  
-│   └── icons/  
+├── assets/
+│   ├── images/
+│   └── icons/
 │
-└── README.md  
+└── README.md
 ```
+
 ---
 
 ## 🎯 Design Philosophy
 
-- Simplicity over complexity  
-- Smooth and logical user flow  
-- Clean UI with minimal distractions  
-- Functional design focused on usability  
+- Simplicity over complexity
+- Smooth and logical user flow
+- Clean UI with minimal distractions
+- Functional design focused on usability
 
 ---
 
@@ -103,7 +139,7 @@ HevanCraft/
 Clone the repository:
 
 git clone https://github.com/your-username/HevanCraft.git  
-cd HevanCraft  
+cd HevanCraft
 
 Run the project:
 
@@ -113,11 +149,11 @@ Open home.html in your browser
 
 ## 🌱 Future Enhancements
 
-- Authentication system (Login / Signup)  
-- Payment gateway integration (Razorpay / Stripe)  
-- Backend integration (Node.js / Firebase)  
-- Fully responsive design  
-- AI-based product recommendations  
+- Authentication system (Login / Signup)
+- Payment gateway integration (Razorpay / Stripe)
+- Backend integration (Node.js / Firebase)
+- Fully responsive design
+- AI-based product recommendations
 
 ---
 
@@ -125,17 +161,17 @@ Open home.html in your browser
 
 Contributions are welcome.
 
-1. Fork the repository  
-2. Create a feature branch  
-3. Commit your changes  
-4. Open a pull request  
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a pull request
 
 ---
 
 ## 👨‍💻 Author
 
 Akash Wakade  
-B.Tech CSE (AI) | Web Developer  
+B.Tech CSE (AI) | Web Developer
 
 ---
 
