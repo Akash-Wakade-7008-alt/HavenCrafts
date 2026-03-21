@@ -2,8 +2,12 @@
    HAVENCRAFT SHARED JAVASCRIPT
 ========================================= */
 
+// Load dependencies
 if (!document.querySelector('script[src="auth.js"]')) {
   document.write('<script src="auth.js"><\/script>');
+}
+if (!document.querySelector('script[src="customization.js"]')) {
+  document.write('<script src="customization.js"><\/script>');
 }
 
 // 1. Data Generation
@@ -19,7 +23,7 @@ const CATEGORY_DATA = {
 
 let currentProducts = [];
 
-function generateDummyData(catKey, count = 64) {
+function generateDummyData(catKey, count = 100) {
   const data = CATEGORY_DATA[catKey];
   if (!data) return [];
   const items = [];
@@ -59,13 +63,18 @@ function addToCart(p = null) {
   if (!prod) prod = activeProd;
   if (!prod) return;
 
+  // Read customization from new hc_customizations store
   let custStr = null;
-  const cData = JSON.parse(localStorage.getItem('customizationData'));
-  if (cData && cData.product === prod.name) {
-    custStr = cData.options || cData.customization;
+  let custImg = null;
+  if (typeof HC_Cust !== 'undefined') {
+    const cData = HC_Cust.load(prod.id);
+    if (cData && cData.isCustomized) {
+      custStr = cData.name + (cData.description ? ` — ${cData.description}` : '');
+      custImg = cData.image;
+    }
   }
 
-  const existingIndex = cartItems.findIndex(i => i.name === prod.name && i.customization === custStr);
+  const existingIndex = cartItems.findIndex(i => i.id === prod.id && i.customization === custStr);
   if (existingIndex > -1) {
     cartItems[existingIndex].qty = (cartItems[existingIndex].qty || 1) + 1;
   } else {
@@ -75,6 +84,7 @@ function addToCart(p = null) {
       img: prod.img,
       desc: prod.desc || 'Beautiful carefully crafted product.',
       customization: custStr,
+      customizationImage: custImg,
       id: prod.id || ('p' + Date.now()),
       qty: 1
     });
@@ -86,30 +96,7 @@ function addToCart(p = null) {
   showToast('Added to cart 🛒');
 }
 
-function buyNow(p = null) {
-  if (!protectAction()) return;
-  let prod = p;
-  if (typeof p === 'string') prod = currentProducts.find(x => x.id === p) || activeProd;
-  if (!prod) prod = activeProd;
-  if (!prod) return;
-
-  let custStr = null;
-  const cData = JSON.parse(localStorage.getItem('customizationData'));
-  if (cData && cData.product === prod.name) {
-    custStr = cData.options;
-  }
-
-  const currentOrder = {
-    name: prod.name,
-    price: prod.price,
-    img: prod.img,
-    customization: custStr,
-    qty: 1
-  };
-  localStorage.setItem('currentOrder', JSON.stringify(currentOrder));
-  showToast('Proceeding to Direct Checkout...');
-  setTimeout(() => window.location.href = 'payment.html', 800);
-}
+// buyNow removed — cart-based flow only
 
 // 4. Toast
 function showToast(msg) {
@@ -189,47 +176,10 @@ function injectGlobalUI() {
           <img class="detail-img" id="dImg" src="" alt=""/>
           <div class="detail-price" id="dPrice"></div>
           <div class="detail-desc" id="dDesc"></div>
-          <div class="detail-actions">
-            <button class="btn btn-buy" id="dBuyBtn" style="background:var(--sage);color:#fff;">🛒 Add to Cart</button>
-            <button class="btn btn-cust" id="dAddCartBtn">➕ Add Cart</button>
-            <button class="btn btn-cust" id="dCustBtn" style="grid-column: span 2;">✏️ Customize</button>
+          <div class="detail-actions" style="display:flex;flex-direction:column;gap:12px;">
+            <button class="btn btn-buy" id="dAddCartBtn" style="background:linear-gradient(135deg,var(--sage),var(--saged));color:#fff;">🛒 Add to Cart</button>
+            <button class="btn btn-cust" id="dCustBtn">✏️ Customize</button>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Customize Modal -->
-    <div class="modal-overlay" id="custOverlay">
-      <div class="modal">
-        <div class="modal-header">
-          <div class="modal-title" id="cTitle">Customize</div>
-          <button class="modal-close" onclick="closeModals()">✕</button>
-        </div>
-        <div class="modal-body">
-          <div class="cust-group">
-            <label class="cust-cb-wrap"><input type="checkbox" id="cbName"> <span class="cust-cb-label">✏️ Add Name / Text</span></label>
-            <div class="cust-reveal" id="rName"><input class="form-input" id="cNameVal" placeholder="Enter name or text…"></div>
-          </div>
-          <div class="cust-group">
-            <label class="cust-cb-wrap"><input type="checkbox" id="cbPhoto"> <span class="cust-cb-label">📷 Add Photo</span></label>
-            <div class="cust-reveal" id="rPhoto"><input type="file" accept="image/*" class="form-input" style="padding:9px"></div>
-          </div>
-          <div class="cust-group">
-            <label class="cust-cb-wrap"><input type="checkbox" id="cbColor"> <span class="cust-cb-label">🎨 Choose Color Theme</span></label>
-            <div class="cust-reveal" id="rColor">
-              <div class="color-picker">
-                <label class="color-label"><input type="radio" name="cColor" value="Sage"><div class="color-circle" style="background:#8aad8f"></div></label>
-                <label class="color-label"><input type="radio" name="cColor" value="Beige"><div class="color-circle" style="background:#f2ebe0"></div></label>
-                <label class="color-label"><input type="radio" name="cColor" value="Rose"><div class="color-circle" style="background:#d4907e"></div></label>
-                <label class="color-label"><input type="radio" name="cColor" value="Charcoal"><div class="color-circle" style="background:#4a4a4a"></div></label>
-              </div>
-            </div>
-          </div>
-          <div class="cust-group">
-            <label class="cust-cb-wrap"><input type="checkbox" id="cbMsg"> <span class="cust-cb-label">💌 Add Special Message</span></label>
-            <div class="cust-reveal" id="rMsg"><textarea class="form-textarea" id="cMsgVal" placeholder="Enter your special message…"></textarea></div>
-          </div>
-          <button class="save-cust-btn" id="saveCustBtn" onclick="saveCustomization()">Save Customization ✓</button>
         </div>
       </div>
     </div>
@@ -250,21 +200,11 @@ let activeProd = null;
 
 function setupModals() {
   document.getElementById('detailOverlay').addEventListener('click', e => { if (e.target.id === 'detailOverlay') closeModals(); });
-  document.getElementById('custOverlay').addEventListener('click', e => { if (e.target.id === 'custOverlay') closeModals(); });
 
-  // Customization Checkboxes
-  const pairs = [['cbName', 'rName'], ['cbPhoto', 'rPhoto'], ['cbColor', 'rColor'], ['cbMsg', 'rMsg']];
-  pairs.forEach(([cb, rev]) => {
-    document.getElementById(cb).addEventListener('change', function () {
-      document.getElementById(rev).classList.toggle('active', this.checked);
-    });
-  });
-
-  document.getElementById('dBuyBtn').addEventListener('click', () => { closeModals(); buyNow(activeProd); });
-  document.getElementById('dAddCartBtn').addEventListener('click', () => { addToCart(activeProd); });
+  document.getElementById('dAddCartBtn').addEventListener('click', () => { addToCart(activeProd); closeModals(); });
   document.getElementById('dCustBtn').addEventListener('click', () => {
     closeModals();
-    setTimeout(() => openCust(activeProd), 350);
+    if (activeProd) setTimeout(() => HC_Cust.open(activeProd.id, activeProd.name), 200);
   });
 }
 
@@ -280,37 +220,20 @@ function openDetail(id) {
   document.body.style.overflow = 'hidden'; // Prevent background scroll
 }
 
-function openCust(p) {
+// openCust delegates to HC_Cust — supports category pages
+function openCust(p, cartItemIndex = null) {
   if (!protectAction()) return;
-  if (typeof p === 'string') p = currentProducts.find(x => x.id === p); // Handle ID passage
+  if (typeof p === 'string') p = currentProducts.find(x => x.id === p) || activeProd;
   activeProd = p;
-  document.getElementById('cTitle').textContent = `Customize: ${p.name}`;
-  document.getElementById('custOverlay').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModals() {
-  document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('active'));
-  document.body.style.overflow = '';
-}
-
-function saveCustomization() {
-  const opts = [];
-  if (document.getElementById('cbName').checked) opts.push(`Name: ${document.getElementById('cNameVal').value}`);
-  if (document.getElementById('cbPhoto').checked) opts.push('Photo: Attached');
-  if (document.getElementById('cbColor').checked) {
-    const r = document.querySelector('input[name="cColor"]:checked');
-    if (r) opts.push(`Color: ${r.value}`);
+  if (typeof HC_Cust !== 'undefined') {
+    HC_Cust.open(p.id, p.name);
+  } else {
+    showToast('Customization not available on this page');
   }
-  if (document.getElementById('cbMsg').checked) opts.push(`Msg: ${document.getElementById('cMsgVal').value}`);
-
-  if (!opts.length) { showToast('Please select an option'); return; }
-
-  const data = { product: activeProd.name, options: opts.join(', '), ts: Date.now() };
-  localStorage.setItem('customizationData', JSON.stringify(data));
-  showToast('Customization saved ✓');
-  closeModals();
 }
+
+// saveCustomization is now handled by HC_Cust internally
+function saveCustomization() {}
 
 function setupBTT() {
   const btt = document.getElementById('bttBtn');
@@ -360,19 +283,49 @@ function renderGrid(products) {
   const grid = document.getElementById('productGrid');
   document.getElementById('resCount').textContent = `Showing ${products.length} results`;
 
-  grid.innerHTML = products.map(p => `
-    <div class="card" onclick="openDetail('${p.id}')">
-      <div class="card-img-wrap">
-        <img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy"/>
-      </div>
-      <div class="card-body">
-        <div class="card-name">${p.name}</div>
-        <div class="card-price">${formatPrice(p.price)}</div>
-        <div class="card-actions">
-          <button class="btn btn-buy" onclick="event.stopPropagation(); buyNow('${p.id}')">Add to Cart</button>
-          <button class="btn btn-cust" onclick="event.stopPropagation(); openCust('${p.id}')">Customize</button>
+  if (products.length === 0) {
+    grid.innerHTML = `<div style="text-align:center;padding:40px;color:var(--light)">No products found matching your criteria.</div>`;
+    return;
+  }
+
+  // Chunk products into rows of 10 for horizontal scrolling
+  const chunkSize = 10;
+  const chunks = [];
+  for (let i = 0; i < products.length; i += chunkSize) {
+    chunks.push(products.slice(i, i + chunkSize));
+  }
+
+  grid.innerHTML = chunks.map((chunk, idx) => {
+    const rowTitle = `Collection ${idx + 1}`;
+    const cardsHtml = chunk.map(p => {
+      const cust = (typeof HC_Cust !== 'undefined') ? HC_Cust.load(p.id) : null;
+      const isCustomized = cust && cust.isCustomized;
+      const custBtnLabel = isCustomized ? '✏️ Edit' : '✏️ Customize';
+      const badge = isCustomized ? `<span class="hc-cust-badge">Customized ✅</span>` : '';
+      return `
+      <div class="card" data-product-id="${p.id}" onclick="openDetail('${p.id}')">
+        <div class="card-img-wrap" style="position:relative">
+          ${badge}
+          <img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy"/>
+        </div>
+        <div class="card-body">
+          <div class="card-name">${p.name}</div>
+          <div class="card-price">${formatPrice(p.price)}</div>
+          <div class="card-actions">
+            <button class="btn btn-buy" onclick="event.stopPropagation(); addToCart('${p.id}')">🛒 Add to Cart</button>
+            <button class="btn btn-cust cust-btn" onclick="event.stopPropagation(); openCust('${p.id}')">${custBtnLabel}</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `
+      <div class="category-row-container">
+        <h3 class="row-title">${rowTitle}</h3>
+        <div class="h-scroll">
+          ${cardsHtml}
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }

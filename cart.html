@@ -88,6 +88,30 @@
         /* Toast */
         .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(70px); background: var(--sage-dark); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 0.88rem; font-weight: 500; z-index: 10000; transition: all 0.3s; opacity: 0; pointer-events: none; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        /* Customization Modal */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .overlay.open { opacity: 1; pointer-events: all; }
+        .modal { background: var(--warm-white); width: 90%; max-width: 500px; border-radius: var(--radius); padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); transform: scale(0.95); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; }
+        .overlay.open .modal { transform: scale(1); }
+        .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .close-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-mid); }
+        .cust-group { margin-bottom: 16px; }
+        .cust-cb-wrap { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 1px solid var(--border); border-radius: 8px; transition: background 0.2s; }
+        .cust-cb-wrap:hover { background: var(--beige); }
+        .cust-cb-label { font-size: 0.95rem; font-weight: 500; }
+        .cust-extra { display: none; margin-top: 10px; padding-left: 10px; animation: slideDown 0.3s ease; }
+        .cust-extra.show { display: block; }
+        .form-input, .form-ta { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 0.9rem; margin-top: 8px; box-sizing: border-box; }
+        .form-ta { height: 80px; resize: vertical; }
+        .color-opts { display: flex; gap: 12px; margin-top: 8px; }
+        .color-pair { cursor: pointer; text-align: center; }
+        .color-radio { display: none; }
+        .color-opt { width: 32px; height: 32px; border-radius: 50%; border: 2px solid transparent; transition: transform 0.2s; }
+        .color-pair:hover .color-opt { transform: scale(1.1); }
+        .save-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--sage), var(--sage-dark)); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px; transition: transform 0.2s; }
+        .save-btn:hover { transform: translateY(-2px); }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -144,6 +168,7 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script src="auth.js"></script>
+    <script src="customization.js"></script>
     <script>
         let cartItems = [];
 
@@ -188,7 +213,11 @@
             summaryPanel.style.display = 'block';
             container.innerHTML = cartItems.map((item, index) => {
                 const qty = item.qty || 1;
-                const custHtml = item.customization ? `<div class="item-cust">✨ Customization: ${item.customization}</div>` : '';
+                const custText = item.customization || '';
+                const custHtml = custText ? `<div class="item-cust">✨ ${custText}</div>` : '';
+                const custImgHtml = item.customizationImage
+                    ? `<div style="margin-bottom:10px"><img src="${item.customizationImage}" alt="Customization preview" style="max-width:80px;max-height:60px;border-radius:8px;border:1px solid #e8e0d5;object-fit:cover;"/></div>`
+                    : '';
                 return `
                     <div class="cart-item">
                         <button class="remove-btn" title="Remove Item" onclick="removeItem(${index})">✕</button>
@@ -198,6 +227,8 @@
                                 <h3 class="item-name">${item.name}</h3>
                                 <p class="item-desc">${item.desc || 'Beautiful carefully crafted product.'}</p>
                                 ${custHtml}
+                                ${custImgHtml}
+                                <button class="btn-outline" style="padding:5px 14px;font-size:0.8rem;border-color:#e8e0d5;margin-bottom:12px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;border-radius:50px;background:none;color:#5a5a5a;transition:all 0.2s;" onmouseover="this.style.borderColor='#8aad8f';this.style.color='#5e8363'" onmouseout="this.style.borderColor='#e8e0d5';this.style.color='#5a5a5a'" onclick="editCartItemCust(${index})">✏️ Edit Customization</button>
                             </div>
                             <div class="item-bottom">
                                 <span class="item-price">${formatPrice(item.price)}</span>
@@ -279,6 +310,29 @@
                 loadCart(); // Dynamically re-render the entire cart block if changed elsewhere!
             }
         });
+
+        /* ─── Edit Customization from Cart ─── */
+        function editCartItemCust(index) {
+            const item = cartItems[index];
+            if (!item) return;
+            if (typeof HC_Cust !== 'undefined') {
+                // Use the item's productId if available, otherwise fallback to name
+                const productId = item.id || item.name;
+                HC_Cust.open(productId, item.name);
+            } else {
+                showToast('Customization service not available');
+            }
+        }
+
+        // Re-render cart when HC_Cust saves customization (updates hc_cart_items)
+        document.addEventListener('DOMContentLoaded', loadCart);
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'hc_cart_items' || e.key === 'hc_customizations') {
+                loadCart();
+            }
+        });
+
     </script>
 </body>
 </html>

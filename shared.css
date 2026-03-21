@@ -250,17 +250,65 @@ body {
     border-color: var(--sage);
 }
 
-/* ================= PRODUCT GRID ================= */
+/* ================= PRODUCT GRID & ROWS ================= */
 .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
-@media (min-width: 1400px) {
-    .product-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 28px;
+.category-row-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.row-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--mid);
+    padding-left: 4px;
+    border-left: 4px solid var(--sage);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+/* HORIZONTAL SCROLL */
+.h-scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 4px 24px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sage) transparent;
+    -webkit-overflow-scrolling: touch;
+}
+
+.h-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.h-scroll::-webkit-scrollbar-track {
+    background: var(--beige);
+    border-radius: 10px;
+}
+
+.h-scroll::-webkit-scrollbar-thumb {
+    background: var(--sage);
+    border-radius: 10px;
+}
+
+.h-scroll .card {
+    flex: 0 0 240px; /* Reduced width as requested */
+    scroll-snap-align: start;
+    max-width: 240px;
+}
+
+@media (max-width: 768px) {
+    .h-scroll .card {
+        flex: 0 0 250px;
+        max-width: 250px;
     }
 }
 

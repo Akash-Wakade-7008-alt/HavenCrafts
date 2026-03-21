@@ -250,8 +250,8 @@
 
         /* PRODUCT CARD */
         .card {
-            min-width: 280px;
-            max-width: 280px;
+            min-width: 240px;
+            max-width: 240px;
             background: var(--ww);
             border-radius: var(--radius);
             border: 1px solid var(--border);
@@ -763,9 +763,9 @@
             <li><a href="#footer">Contact</a></li>
         </ul>
         <div class="nav-right">
-            <button class="cart-btn" id="cartBtn" aria-label="View cart">
+            <a href="cart.html" class="cart-btn" id="cartBtn" aria-label="View cart" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
                 🛒<span id="cartBadge">0</span>
-            </button>
+            </a>
         </div>
     </nav>
 
@@ -841,89 +841,20 @@
                 <img class="detail-img" id="detailImg" src="" alt="" />
                 <div class="detail-price" id="detailPrice"></div>
                 <div class="detail-desc" id="detailDesc"></div>
-                <div class="detail-actions">
-                    <button class="btn btn-buy" id="detailBuy" style="background:var(--sage);color:#fff;">🛒 Buy
-                        Now</button>
-                    <button class="btn btn-cust" id="detailAddCart">➕ Add Cart</button>
-                    <button class="btn btn-cust" id="detailCust" style="grid-column: span 2;">✏️ Customize</button>
+                <div class="detail-actions" style="display:flex;flex-direction:column;gap:12px;">
+                    <button class="btn btn-buy" id="detailAddCart" style="background:linear-gradient(135deg,var(--sage),#5e8363);color:#fff;">🛒 Add to Cart</button>
+                    <button class="btn btn-cust" id="detailCust">✏️ Customize</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- CUSTOMIZE MODAL -->
-    <div class="overlay" id="custOverlay" role="dialog" aria-modal="true">
-        <div class="modal">
-            <div class="modal-head">
-                <span class="modal-title" id="custProductName">Customize</span>
-                <button class="close-btn" id="custClose">✕</button>
-            </div>
-            <div class="modal-body">
-                <!-- Name/Text -->
-                <div class="cust-group">
-                    <label class="cust-cb-wrap">
-                        <input type="checkbox" id="cbName"> <span class="cust-cb-label">✏️ Add Name / Text</span>
-                    </label>
-                    <div class="cust-extra" id="extraName">
-                        <input class="form-input" id="custNameVal" placeholder="Enter name or text…"
-                            style="margin-top:0" />
-                    </div>
-                </div>
-                <!-- Photo -->
-                <div class="cust-group">
-                    <label class="cust-cb-wrap">
-                        <input type="checkbox" id="cbPhoto"> <span class="cust-cb-label">📷 Add Photo</span>
-                    </label>
-                    <div class="cust-extra" id="extraPhoto">
-                        <input type="file" accept="image/*" class="form-input" style="padding:8px" />
-                    </div>
-                </div>
-                <!-- Color -->
-                <div class="cust-group">
-                    <label class="cust-cb-wrap">
-                        <input type="checkbox" id="cbColor"> <span class="cust-cb-label">🎨 Choose Color Theme</span>
-                    </label>
-                    <div class="cust-extra" id="extraColor">
-                        <div class="color-opts">
-                            <label class="color-pair" title="Sage Green">
-                                <input type="radio" name="custColor" class="color-radio" value="Sage Green">
-                                <div class="color-opt" style="background:#8aad8f"></div>
-                            </label>
-                            <label class="color-pair" title="Beige">
-                                <input type="radio" name="custColor" class="color-radio" value="Beige">
-                                <div class="color-opt" style="background:#f2ebe0"></div>
-                            </label>
-                            <label class="color-pair" title="Dusty Rose">
-                                <input type="radio" name="custColor" class="color-radio" value="Dusty Rose">
-                                <div class="color-opt" style="background:#d4907e"></div>
-                            </label>
-                            <label class="color-pair" title="Charcoal">
-                                <input type="radio" name="custColor" class="color-radio" value="Charcoal">
-                                <div class="color-opt" style="background:#4a4a4a"></div>
-                            </label>
-                        </div>
-                        <small style="color:var(--light);font-size:.75rem;margin-top:6px;display:block">Click a color to
-                            select</small>
-                    </div>
-                </div>
-                <!-- Message -->
-                <div class="cust-group">
-                    <label class="cust-cb-wrap">
-                        <input type="checkbox" id="cbMsg"> <span class="cust-cb-label">💌 Add Special Message</span>
-                    </label>
-                    <div class="cust-extra" id="extraMsg">
-                        <textarea class="form-ta" id="custMsgVal" placeholder="Enter your special message…"></textarea>
-                    </div>
-                </div>
-                <button class="save-btn" id="saveCustBtn">Save Customization ✓</button>
-            </div>
-        </div>
-    </div>
 
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
     <script src="auth.js"></script>
+    <script src="customization.js"></script>
     <script>
         /* ───────────── DATA ───────────── */
         const DECOR_SUBS = [
@@ -937,6 +868,10 @@
                     { name: 'Bamboo Photo Frame', desc: 'Eco-friendly bamboo frame, holds 5×7".', price: '₹549', img: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Mandala Art Board', desc: 'Hand-painted mandala on reclaimed wood.', price: '₹1,749', img: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Driftwood Sculpture', desc: 'Natural driftwood shaped into modern art.', price: '₹2,499', img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Wooden Coaster Set', desc: 'Set of 4 hand-carved mango wood coasters.', price: '₹399', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Teak Bookends', desc: 'Solid teak wood geometric bookends.', price: '₹1,599', img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Carved Wood Mirror', desc: 'Round wall mirror with carved wooden frame.', price: '₹3,299', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Bamboo Serving Tray', desc: 'Eco-friendly bamboo tray with handles.', price: '₹899', img: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400&q=75&auto=format&fit=crop' },
                 ]
             },
             {
@@ -949,6 +884,10 @@
                     { name: 'Jute Wall Tapestry', desc: 'Large jute tapestry with geometric design.', price: '₹1,399', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Embroidered Placemat', desc: 'Set of 4 hand-embroidered cotton placemats.', price: '₹699', img: 'https://images.unsplash.com/photo-1594060583572-e5c94e29b96c?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Velvet Bolster Pillow', desc: 'Rich velvet bolster with zari trim.', price: '₹949', img: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Cotton Tufted Rug', desc: 'Hand-tufted geometric cotton rug (3x5 ft).', price: '₹1,999', img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Silk Accent Pillow', desc: 'Raw silk cushion cover in mustard yellow.', price: '₹749', img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Macrame Plant Hanger', desc: 'Boho cotton macrame indoor plant hanger.', price: '₹449', img: 'https://images.unsplash.com/photo-1594060583572-e5c94e29b96c?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Woven Floor Pouf', desc: 'Braided cotton floor pouf for extra seating.', price: '₹2,149', img: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=75&auto=format&fit=crop' },
                 ]
             },
             {
@@ -961,6 +900,10 @@
                     { name: 'Glass Terrarium', desc: 'Geometric glass terrarium, 20cm tall.', price: '₹1,099', img: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Brass Wind Chime', desc: 'Hand-hammered brass wind chime, 5 tubes.', price: '₹649', img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Woven Storage Basket', desc: 'Handcrafted seagrass basket with handles.', price: '₹849', img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Geometric Bookends', desc: 'Set of two modern concrete bookends.', price: '₹1,249', img: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Brass Pillar Holder', desc: 'Antique brass candle pillar holder.', price: '₹799', img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Dried Pampas Grass', desc: 'Bundle of 15 fluffy dried pampas stems.', price: '₹599', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Marble Table Clock', desc: 'Minimalist white marble side-table clock.', price: '₹1,599', img: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&q=75&auto=format&fit=crop' },
                 ]
             }
         ];
@@ -975,6 +918,10 @@
                     { name: 'Resin Bookmark', desc: 'Pressed flower bookmark in clear resin.', price: '₹299', img: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Resin Clock', desc: 'Geode-style epoxy wall clock, 30 cm.', price: '₹2,299', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Resin Name Plaque', desc: 'Custom name in gold leaf inside resin.', price: '₹899', img: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Resin Tray Table', desc: 'Small side table tray poured with ocean waves.', price: '₹3,499', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Gold Flake Pen', desc: 'Handcrafted resin pen with gold flakes.', price: '₹449', img: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Floral Paperweight', desc: 'Real dried roses preserved in a resin sphere.', price: '₹649', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Resin Keychain', desc: 'Alphabet letter keychain filled with glitter.', price: '₹199', img: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=75&auto=format&fit=crop' },
                 ]
             },
             {
@@ -986,6 +933,10 @@
                     { name: 'Luxury Soap Box', desc: '4-piece artisan soap gift box, organic.', price: '₹699', img: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Floral Sugar Scrub', desc: 'Rosewater & coconut exfoliating scrub.', price: '₹449', img: 'https://images.unsplash.com/photo-1556228578-8c98e6adf883?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Spa Gift Kit', desc: 'Mini spa set: scrub, balm, soap & pouch.', price: '₹1,099', img: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Tea Light Holder', desc: 'Lippen art mirrored clay tea light holder.', price: '₹399', img: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Lippen Wall Plate', desc: 'Traditional mud & mirror artwork on a 10" plate.', price: '₹849', img: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Clay Serving Bowl', desc: 'Terracotta bowl decorated with Lippen mirrors.', price: '₹599', img: 'https://images.unsplash.com/photo-1556228578-8c98e6adf883?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Ornament Set', desc: 'Set of 4 Lippen art festive hanging ornaments.', price: '₹499', img: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&q=75&auto=format&fit=crop' },
                 ]
             },
             {
@@ -997,6 +948,10 @@
                     { name: 'Name Patch Badge', desc: 'Personalised iron-on embroidered name patch.', price: '₹349', img: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Floral Tote Bag', desc: 'Cotton tote with hand-embroidered blooms.', price: '₹749', img: 'https://images.unsplash.com/photo-1487530811015-780f2f5dc76f?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Embroidered Bookmark', desc: 'Fabric bookmark with cross-stitch motif.', price: '₹199', img: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Hand-sewn Pouch', desc: 'Zippered makeup pouch with floral embroidery.', price: '₹449', img: 'https://images.unsplash.com/photo-1487530811015-780f2f5dc76f?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Monogram Towel Set', desc: 'Set of 2 hand towels with embroidered initials.', price: '₹899', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Embroidered Apron', desc: 'Linen apron featuring delicate botanical threadwork.', price: '₹1,049', img: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Needlepoint Pin Cushion', desc: 'Decorative vintage-style needlepoint cushion.', price: '₹299', img: 'https://images.unsplash.com/photo-1487530811015-780f2f5dc76f?w=400&q=75&auto=format&fit=crop' },
                 ]
             },
             {
@@ -1009,6 +964,10 @@
                     { name: 'Brass Ring Stand', desc: 'Minimalist brass ring cone stand, set of 3.', price: '₹749', img: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Velvet Ring Tray', desc: '7-slot velvet jewellery display tray.', price: '₹599', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&q=75&auto=format&fit=crop' },
                     { name: 'Painted Ceramic Dish', desc: 'Hand-painted floral ceramic ring dish.', price: '₹549', img: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Engraved Wood Platter', desc: 'Walnut wood engagement ring display platter.', price: '₹1,199', img: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Glass Ring Box', desc: 'Hexagonal glass box with brass edging.', price: '₹899', img: 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Oyster Shell Dish', desc: 'Gilded oyster shell perfect for holding rings.', price: '₹399', img: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=75&auto=format&fit=crop' },
+                    { name: 'Floral Resin Holder', desc: 'Resin ring cone with embedded baby’s breath.', price: '₹549', img: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400&q=75&auto=format&fit=crop' },
                 ]
             }
         ];
@@ -1029,44 +988,33 @@
         function addToCart(p = null) {
             if (!protectAction()) return;
             let prod = p;
-            if (typeof p === 'string') prod = currentProducts.find(x => x.id === p) || activeProd;
-            if (!prod) prod = activeProd;
+            // Fallback to activeProduct if nothing passed
+            if (!prod) prod = activeProduct;
             if (!prod) return;
-            cartItems.push({
+
+            // Prepare base cart item
+            let item = {
+                id: prod.id || prod.name,
                 name: prod.name,
                 price: prod.price,
                 img: prod.img,
-                id: 'p' + Date.now()
-            });
+                desc: prod.desc || "",
+                qty: 1
+            };
+
+            // Apply customization if exists
+            if (typeof HC_Cust !== 'undefined') {
+                item = HC_Cust.attachToCartItem(item.id, item);
+            }
+
+            cartItems.push(item);
             cartCount = cartItems.length;
             localStorage.setItem('hc_cart_items', JSON.stringify(cartItems));
             updateBadge();
             showToast('Added to cart 🛒');
         }
 
-        function buyNow(p = null) {
-            if (!protectAction()) return;
-            let prod = p;
-            if (typeof p === 'string') prod = currentProducts.find(x => x.id === p) || activeProd;
-            if (!prod) prod = activeProd;
-            if (!prod) return;
-            let custStr = null;
-            const cData = JSON.parse(localStorage.getItem('customizationData'));
-            if (cData && cData.product === prod.name) {
-                custStr = cData.customization;
-            }
-
-            const currentOrder = {
-                name: prod.name,
-                price: prod.price,
-                img: prod.img,
-                customization: custStr,
-                qty: 1
-            };
-            localStorage.setItem('currentOrder', JSON.stringify(currentOrder));
-            showToast('Proceeding to Direct Checkout...');
-            setTimeout(() => window.location.href = 'payment.html', 800);
-        }
+        // buyNow removed — cart-only flow
 
         /* ───────────── TOAST ───────────── */
         function showToast(msg) {
@@ -1079,15 +1027,19 @@
 
         /* ───────────── BUILD CARD HTML ───────────── */
         function buildCard(p) {
-            return `<div class="card" data-name="${p.name}" data-img="${p.img}" data-desc="${p.desc}" data-price="${p.price}">
-    <img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy"/>
+            const cust = (typeof HC_Cust !== 'undefined') ? HC_Cust.load(p.name) : null;
+            const isCustomized = cust && cust.isCustomized;
+            const custBtnLabel = isCustomized ? '✏️ Edit Customization' : '✏️ Customize';
+            const badge = isCustomized ? `<span class="hc-cust-badge" style="position:absolute;top:8px;left:8px;z-index:5;">Customized ✅</span>` : '';
+            return `<div class="card" data-product-id="${p.name}" data-name="${p.name}" data-img="${p.img}" data-desc="${p.desc}" data-price="${p.price}">
+    <div style="position:relative">${badge}<img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy"/></div>
     <div class="card-body">
       <div class="card-name">${p.name}</div>
       <div class="card-desc">${p.desc}</div>
       <div class="card-price">${p.price}</div>
       <div class="card-btns">
-        <button class="btn btn-buy buy-btn">Add to Cart</button>
-        <button class="btn btn-cust cust-btn">Customize</button>
+        <button class="btn btn-buy buy-btn">🛒 Add to Cart</button>
+        <button class="btn btn-cust cust-btn">${custBtnLabel}</button>
       </div>
     </div>
   </div>`;
@@ -1114,11 +1066,20 @@
 
         function openDetail(p) {
             activeProduct = p;
+            const modal = document.getElementById('detailModal');
+            modal.setAttribute('data-product-id', p.id || p.name);
+            
             document.getElementById('detailTitle').textContent = p.name;
             document.getElementById('detailImg').src = p.img;
             document.getElementById('detailImg').alt = p.name;
             document.getElementById('detailDesc').textContent = p.desc;
             document.getElementById('detailPrice').textContent = p.price;
+            
+            // Sync customize button text
+            if (typeof HC_Cust !== 'undefined') {
+                HC_Cust.refreshCardUI(p.id || p.name);
+            }
+            
             detailOverlay.classList.add('open');
             document.body.style.overflow = 'hidden';
         }
@@ -1131,88 +1092,38 @@
         document.getElementById('detailClose').addEventListener('click', closeDetail);
         detailOverlay.addEventListener('click', e => { if (e.target === detailOverlay) closeDetail(); });
 
-        document.getElementById('detailBuy').addEventListener('click', () => {
-            closeDetail();
-            if (activeProduct) buyNow(activeProduct);
-        });
         document.getElementById('detailAddCart').addEventListener('click', () => {
             if (activeProduct) addToCart(activeProduct);
             closeDetail();
         });
         document.getElementById('detailCust').addEventListener('click', () => {
             closeDetail();
-            if (activeProduct) openCust(activeProduct.name);
+            if (activeProduct && typeof HC_Cust !== 'undefined') {
+                setTimeout(() => HC_Cust.open(activeProduct.name, activeProduct.name), 200);
+            }
         });
-
-        /* ───────────── CUSTOMIZE MODAL ───────────── */
-        const custOverlay = document.getElementById('custOverlay');
-        let custProductName = '';
-
-        function openCust(p) {
-            if (!protectAction()) return;
-            if (typeof p === 'string') p = currentProducts.find(x => x.id === p); // Handle ID passage
-            activeProd = p;
-            document.getElementById('custProductName').textContent = `Customize: ${p.name}`;
-            document.getElementById('custOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
 
         function closeCust() {
-            custOverlay.classList.remove('open');
-            document.body.style.overflow = '';
+            if (typeof HC_Cust !== 'undefined') HC_Cust.close();
         }
 
-        document.getElementById('custClose').addEventListener('click', closeCust);
-        custOverlay.addEventListener('click', e => { if (e.target === custOverlay) closeCust(); });
-
-        // Checkbox toggles
-        [
-            ['cbName', 'extraName'], ['cbPhoto', 'extraPhoto'],
-            ['cbColor', 'extraColor'], ['cbMsg', 'extraMsg']
-        ].forEach(([cbId, extId]) => {
-            document.getElementById(cbId).addEventListener('change', function () {
-                document.getElementById(extId).classList.toggle('show', this.checked);
-            });
-        });
-
-        // Color radio — visual selection feedback
-        document.querySelectorAll('.color-radio').forEach(r => {
-            r.addEventListener('change', () => {
-                document.querySelectorAll('.color-opt').forEach(o => o.style.borderColor = 'transparent');
-                r.nextElementSibling.style.borderColor = 'var(--dark)';
-            });
-        });
-
-        // Save customization
-        document.getElementById('saveCustBtn').addEventListener('click', () => {
-            const parts = [];
-            if (document.getElementById('cbName').checked) {
-                const v = document.getElementById('custNameVal').value.trim();
-                if (v) parts.push(`Name: ${v}`);
+        function openCust(pid) {
+            if (typeof HC_Cust !== 'undefined') {
+                HC_Cust.open(pid, pid);
+            } else {
+                showToast('Customization service not available');
             }
-            if (document.getElementById('cbPhoto').checked) parts.push('Photo: [uploaded]');
-            if (document.getElementById('cbColor').checked) {
-                const sel = document.querySelector('.color-radio:checked');
-                if (sel) parts.push(`Color: ${sel.value}`);
-            }
-            if (document.getElementById('cbMsg').checked) {
-                const v = document.getElementById('custMsgVal').value.trim();
-                if (v) parts.push(`Message: ${v}`);
-            }
-            const summary = parts.length ? parts.join(', ') : 'No options selected';
-            const data = { product: custProductName, customization: summary, timestamp: Date.now() };
-            localStorage.setItem('customizationData', JSON.stringify(data));
-            showToast('Customization saved ✓');
-            closeCust();
-        });
+        }
 
-        /* ───────────── DELEGATED CARD EVENTS ───────────── */
+        /* ─── DELEGATED CARD EVENTS ─── */
         document.addEventListener('click', e => {
-            // Add to Cart button
+            // Add to Cart
             if (e.target.classList.contains('buy-btn')) {
                 e.stopPropagation();
                 const card = e.target.closest('.card');
+                if (!card) return;
                 addToCart({
+                    id: card.dataset.productId || card.dataset.name,
                     name: card.dataset.name,
                     img: card.dataset.img,
                     desc: card.dataset.desc,
@@ -1220,16 +1131,18 @@
                 });
                 return;
             }
-            // Customize button
+            // Customize
             if (e.target.classList.contains('cust-btn')) {
                 e.stopPropagation();
                 const card = e.target.closest('.card');
-                openCust(card.dataset.name);
+                if (!card) return;
+                const pid = card.dataset.productId || card.dataset.name;
+                openCust(pid);
                 return;
             }
             // Card click → detail modal
             const card = e.target.closest('.card');
-            if (card) {
+            if (card && !e.target.closest('button')) {
                 openDetail({
                     name: card.dataset.name,
                     img: card.dataset.img,
@@ -1239,7 +1152,7 @@
             }
         });
 
-        /* ───────────── KEYBOARD CLOSE ───────────── */
+        /* ─── KEYBOARD CLOSE ─── */
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') { closeDetail(); closeCust(); }
         });
@@ -1248,6 +1161,23 @@
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', scrollY > 20);
         }, { passive: true });
+
+        /* ─── CROSS-TAB SYNC ─── */
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'hc_customizations') {
+                // Refresh all visible cards
+                document.querySelectorAll('[data-product-id]').forEach(card => {
+                    if (typeof HC_Cust !== 'undefined') {
+                        HC_Cust.refreshCardUI(card.dataset.productId);
+                    }
+                });
+            }
+            if (e.key === 'hc_cart_items') {
+                cartItems = JSON.parse(e.newValue || '[]');
+                cartCount = cartItems.length;
+                updateBadge();
+            }
+        });
     </script>
 </body>
 
